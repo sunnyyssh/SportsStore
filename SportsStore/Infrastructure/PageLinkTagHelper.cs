@@ -27,6 +27,9 @@ public sealed class PageLinkTagHelper : TagHelper
     
     public string PageClassSelected { get; set; } = String.Empty;
 
+    [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
+    public Dictionary<string, object> PageUrlValues { get; set; } = new();
+
     public override void Process(TagHelperContext context, TagHelperOutput output)
     {
         if (ViewContext is null || PageModel is null)
@@ -39,11 +42,13 @@ public sealed class PageLinkTagHelper : TagHelper
         for (int i = 1; i <= PageModel.TotalPages; i++)
         {
             var tag = new TagBuilder("a");
+            PageUrlValues["productPage"] = i;
             tag.Attributes["href"] = urlHelper.Action(new UrlActionContext()
             {
                 Action = PageAction,
-                Values = new { productPage = i }
+                Values = PageUrlValues
             });
+            
             if (PageClassesEnabled)
             {
                 tag.AddCssClass(PageClass);

@@ -15,10 +15,12 @@ public sealed class HomeController(IStoreRepository repository) : Controller
             .OrderBy(p => p.ProductID)
             .Skip((productPage - 1) * PageSize)
             .Take(PageSize);
-            
+
         var paging = new PagingInfo
         {
-            TotalItems = repository.Products.Count(),
+            TotalItems = category is null
+                ? repository.Products.Count()
+                : repository.Products.Count(p => p.Category == category),
             ItemsPerPage = PageSize,
             CurrentPage = productPage
         };
