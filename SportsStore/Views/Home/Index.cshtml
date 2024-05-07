@@ -1,1 +1,12 @@
-﻿<h4>Welcome to SportsStore</h4>
+﻿@model ProductListViewModel
+
+@foreach (var p in Model.Products)
+{
+    <div>
+        <h3>@p.Name</h3>
+        @p.Description
+        <h4>@p.Price.ToString("C")</h4>
+    </div>
+}
+
+<div page-model="@Model.PagingInfo" page-action="Index"></div>
