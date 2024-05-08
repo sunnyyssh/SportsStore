@@ -13,8 +13,6 @@ public sealed class NavigationMenuViewComponent : ViewComponent
         ViewBag.SelectedCategory = RouteData?.Values["category"] ?? "no-category-selected"; 
         // говнокод OFF
         
-        Console.WriteLine(ViewBag.SelectedCategory.GetType());
-        
         return View(_repository.Products
             .Select(x => x.Category)
             .Distinct()
