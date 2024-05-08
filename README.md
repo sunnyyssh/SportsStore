@@ -1,4 +1,5 @@
-Missing libriraries: bootstrap and awesome-font
+Missing libriraries: bootstrap and awesome-font.
+
 cmd commands in SportsStore folder.
 ```cmd
 libman install bootstrap@5.2.3 -d wwwroot/lib/bootstrap
