@@ -3,6 +3,9 @@
 ##
 ## Get latest from `dotnet new gitignore`
 
+# My custom ignore
+SportsStore/wwwroot/lib/
+
 # dotenv files
 .env
 
