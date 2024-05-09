@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using SportsStore.Models;
 // ReSharper disable ConvertClosureToMethodGroup
 
@@ -22,10 +23,33 @@ builder.Services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddServerSideBlazor();
 
+builder.Services.AddDbContext<AppIdentityDbContext>(opts =>
+{
+    opts.UseSqlServer(
+        builder.Configuration["ConnectionStrings:IdentityConnection"]);
+});
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppIdentityDbContext>();
+
 var app = builder.Build();
+
+if (app.Environment.IsProduction())
+{
+    app.UseExceptionHandler("/error");
+}
+
+app.UseRequestLocalization(opts =>
+{
+    opts.AddSupportedCultures("en-US")
+        .AddSupportedUICultures("en-US")
+        .SetDefaultCulture("en-US");
+});
 
 app.UseStaticFiles();
 app.UseSession();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllerRoute("catpage",
     "{category}/Page{productPage}",
@@ -47,5 +71,6 @@ app.MapBlazorHub();
 app.MapFallbackToPage("/admin/{*catchall}", "/Admin/Index");
 
 SeedData.EnsurePopulated(app);
+await IdentitySeedData.EnsurePopulatedAsync(app);
 
 app.Run();

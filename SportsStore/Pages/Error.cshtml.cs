@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace SportsStore.Pages.Admin;
+namespace SportsStore.Pages;
 
-public class Index : PageModel
+public class Error : PageModel
 {
     public void OnGet()
     {
