@@ -12,6 +12,7 @@ builder.Services.AddDbContext<StoreDbContext>(opts =>
         builder.Configuration["ConnectionStrings:SportsStoreConnection"]);
 });
 
+builder.Services.AddScoped<IOrderRepository, EFOrderRepository>();
 builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
 
 builder.Services.AddRazorPages();
